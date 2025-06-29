@@ -20,7 +20,7 @@ class DefaultFactory {
         if (!existingRole) {
             const administrationRole = new Role({
                 name: roleName,
-                isActive: true
+                status: 2
             });
             await administrationRole.save();
             console.log("Administration role created");

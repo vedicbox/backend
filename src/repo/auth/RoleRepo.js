@@ -14,7 +14,6 @@ export default class RoleRepo {
     return await Role.findByIdAndUpdate(roleData._id, roleData, { new: true });
   }
 
-
   /**
    * Find a role by its ID
    * @param {string} roleId
@@ -23,4 +22,13 @@ export default class RoleRepo {
   static async findRoleById(roleId) {
     return await Role.findById(roleId);
   }
+
+  /**
+  * Fetch all active roles
+  * @returns {Promise<Array<Object>>}
+  */
+  static async fetchTableRoles() {
+    return await Role.find({});
+  }
+
 }

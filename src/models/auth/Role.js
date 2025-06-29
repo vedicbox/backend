@@ -1,4 +1,3 @@
-// models/Role.js
 import mongoose from "mongoose";
 
 const roleSchema = new mongoose.Schema(
@@ -7,11 +6,11 @@ const roleSchema = new mongoose.Schema(
       type: String,
       required: true,
       uppercase: true,
-      unique: true, // Ensure role names are unique
+      unique: true, 
     },
-    isActive: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: Number, 
+      default: 1
     },
   },
   {

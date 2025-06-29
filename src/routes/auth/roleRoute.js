@@ -20,5 +20,10 @@ router.post("/create", RoleController.createRole);
  */
 router.post("/update", RoleController.updateRole);
 
+/**
+ * Route to fetch available roles (active roles)
+ * @route GET /fetch/availableRoles
+ */
+router.get("/fetch-tablist", RoleController.fetchTableRoles);
 
 export default router;

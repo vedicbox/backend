@@ -38,4 +38,19 @@ export default class RoleController {
     }
   }
 
+  /**
+ * Fetch the list of available roles (active roles)
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {ResponseHandler}
+ */
+  static async fetchTableRoles(req, res) {
+    try {
+      const response = await RoleService.fetchTableRoles();
+      return HttpHandler.send(res, response);
+    } catch (error) {
+      return HttpHandler.error(res, error);
+    }
+  }
+
 }

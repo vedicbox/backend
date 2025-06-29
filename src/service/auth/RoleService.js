@@ -8,6 +8,7 @@ export default class RoleService {
   }
 
   static async createRole(roleData) {
+    roleData.status = 1;
     const newRole = await RoleRepo.createRole(roleData);
     return new ServiceResponse(200, "Role created successfully", null);
   }
@@ -15,6 +16,15 @@ export default class RoleService {
   static async updateRole(roleData) {
     const updatedRole = await RoleRepo.updateRole(roleData);
     return new ServiceResponse(200, "Role updated successfully", updatedRole);
+  }
+
+  /**
+  * Fetch the list of available roles (active roles)
+  * @returns {ServiceResponse}
+  */
+  static async fetchTableRoles() {
+    const availableRoles = await RoleRepo.fetchTableRoles();
+    return new ServiceResponse(200, null, { rolelist: availableRoles });
   }
 
 }
