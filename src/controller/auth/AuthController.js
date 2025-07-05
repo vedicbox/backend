@@ -29,7 +29,6 @@ export default class AuthController {
   }
 
   static async authCheck(req, res) {
-
     try {
       const result = await AuthService.authCheck(req.auth);
       return HttpHandler.send(res, result);

@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    code: {
+    org: {
       type: String,
       trim: true,
     },

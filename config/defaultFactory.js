@@ -1,5 +1,5 @@
-import User from "../src/models/auth/User.js";
 import Role from "../src/models/auth/Role.js";
+import User from "../src/models/auth/User.js";
 
 class DefaultFactory {
     static async init() {
@@ -16,11 +16,11 @@ class DefaultFactory {
     static async ensureAdministrationRole() {
         const roleName = "ADMINISTRATION";
         const existingRole = await Role.findOne({ name: roleName });
-        
+
         if (!existingRole) {
             const administrationRole = new Role({
                 name: roleName,
-                status: 2
+                status: 3
             });
             await administrationRole.save();
             console.log("Administration role created");
@@ -34,7 +34,8 @@ class DefaultFactory {
         const administrationPassword = process.env.ADMINISTRATION_PASSWORD;
         const administrationFirstName = process.env.ADMINISTRATION_FIRSTNAME;
         const administrationLastName = process.env.ADMINISTRATION_LASTNAME;
-        
+        const administrationOrg = process.env.ADMINISTRATION_ORG;
+
         // Get administration role
         const administrationRole = await Role.findOne({ name: "ADMINISTRATION" });
         if (!administrationRole) {
@@ -48,6 +49,7 @@ class DefaultFactory {
                 password: administrationPassword,
                 firstName: administrationFirstName,
                 lastName: administrationLastName,
+                org: administrationOrg,
                 isActive: true,
                 roleRef: administrationRole._id
             });

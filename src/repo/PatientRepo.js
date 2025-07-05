@@ -117,24 +117,65 @@ class PatientRepo {
      * @returns {Promise<Array>}
      */
     static async getAlignPatientList() {
-        return AlignPatientSchema.find({ status: 0 })
-            .populate({
-                path: "docId",
-                select: "firstName lastName",
-                model: "users"
-            })
-            .populate({
-                path: "caseId",
-                select: "firstName lastName",
-                model: "patient_details"
-            })
-            .populate({
-                path: "caseId",
-                select: "phone1",
-                model: "patient_contacts"
-            })
-            .lean();
+        return AlignPatientSchema.aggregate([
+            { $match: { status: 0 } },
+            {
+                $lookup: {
+                    from: "users",
+                    localField: "docId",
+                    foreignField: "_id",
+                    as: "doctor"
+                }
+            },
+            { $unwind: "$doctor" },
+            {
+                $lookup: {
+                    from: "patient_details",
+                    localField: "caseId",
+                    foreignField: "_id",
+                    as: "patient"
+                }
+            },
+            { $unwind: "$patient" },
+            {
+                $lookup: {
+                    from: "patient_contacts",
+                    localField: "caseId",
+                    foreignField: "caseId", // <-- corrected field
+                    as: "contact"
+                }
+            },
+            { $unwind: { path: "$contact", preserveNullAndEmptyArrays: true } },
+            {
+                $project: {
+                    _id: 1,
+                    caseId: "$caseId",
+                    docId: "$docId",
+                    fee: 1,
+                    payTag: 1,
+                    status: 1,
+                    created_at: 1,
+                    updated_at: 1,
+                    patientName: {
+                        $concat: [
+                            { $ifNull: ["$patient.firstName", ""] },
+                            " ",
+                            { $ifNull: ["$patient.lastName", ""] }
+                        ]
+                    },
+                    doctorName: {
+                        $concat: [
+                            { $ifNull: ["$doctor.firstName", ""] },
+                            " ",
+                            { $ifNull: ["$doctor.lastName", ""] }
+                        ]
+                    },
+                    phone1: "$contact.phone1"
+                }
+            }
+        ]);
     }
+
 
     /**
      * Change status of an align patient by _id

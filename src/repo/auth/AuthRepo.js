@@ -8,8 +8,8 @@ export default class AuthRepo {
    * @param {string} [selectFields] - Fields to select
    * @returns {Promise<Object|null>}
    */
-  static async findUserByEmail(email, selectFields = null) {
-    return await User.findOne({ email }).select(selectFields);
+  static async findUserByFields(validateFields, selectFields = null) {
+    return await User.findOne({ ...validateFields }).select(selectFields);
   }
 
   /**
@@ -59,5 +59,5 @@ export default class AuthRepo {
       },
     ]);
   }
-  
+
 }

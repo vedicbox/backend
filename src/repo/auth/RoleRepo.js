@@ -2,7 +2,7 @@ import Role from "../../models/auth/Role.js";
 
 export default class RoleRepo {
   static async findRoles() {
-    return await Role.find({}, { name: 1, _id: 1 });
+    return await Role.find({ status: 1 }, { name: 1, _id: 1 });
   }
 
   static async createRole(roleData) {
@@ -28,7 +28,7 @@ export default class RoleRepo {
   * @returns {Promise<Array<Object>>}
   */
   static async fetchTableRoles() {
-    return await Role.find({});
+    return await Role.find({ status: { $ne: 2 } });
   }
 
 }

@@ -153,12 +153,7 @@ export default class PatientService {
             const formatted = alignPatients.map(item => ({
                 ...item,
                 caseId: item.caseId?._id || item.caseId, // keep caseId as separate field
-                patientName: item.caseId
-                    ? `${item.caseId.firstName || ""} ${item.caseId.lastName || ""}`.trim()
-                    : "",
-                doctorName: item.docId
-                    ? `${item.docId.firstName || ""} ${item.docId.lastName || ""}`.trim()
-                    : "",
+               
                 status: item.status === 0 ? "pending" : item.status , // map 0 to "pending",
                 docId: item.docId?._id || item.docId,
             }));
