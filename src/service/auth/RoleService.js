@@ -1,3 +1,4 @@
+import RoleMapper from "../../mapper/RoleMapper.js";
 import RoleRepo from "../../repo/auth/RoleRepo.js";
 import { ServiceResponse } from "../../utils/responseHandler.js";
 
@@ -8,8 +9,10 @@ export default class RoleService {
   }
 
   static async createRole(roleData) {
-    roleData.status = 1;
-    const newRole = await RoleRepo.createRole(roleData);
+
+    const createObj = RoleMapper.createRoleMapper(roleData);
+
+    await RoleRepo.createRole(createObj);
     return new ServiceResponse(200, "Role created successfully", null);
   }
 

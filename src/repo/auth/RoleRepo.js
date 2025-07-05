@@ -1,6 +1,7 @@
 import Role from "../../models/auth/Role.js";
 
 export default class RoleRepo {
+  
   static async findRoles() {
     return await Role.find({ status: 1 }, { name: 1, _id: 1 });
   }
